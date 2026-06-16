@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gaming Buddy Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="icon-home" viewBox="0 0 24 24">
+        <path d="M4 11.5 12 4l8 7.5"></path>
+        <path d="M6.5 10.5V20h11v-9.5"></path>
+        <path d="M10 20v-5h4v5"></path>
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+        <path d="M5 20c1.4-3.2 3.7-4.8 7-4.8s5.6 1.6 7 4.8"></path>
+      </symbol>
+      <symbol id="icon-users" viewBox="0 0 24 24">
+        <path d="M9 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+        <path d="M15.5 11.5a3 3 0 1 0 0-6"></path>
+        <path d="M3.5 20c1-3.2 2.9-4.8 5.5-4.8s4.5 1.6 5.5 4.8"></path>
+        <path d="M14.8 16c2.4.2 4.1 1.5 5.2 4"></path>
+      </symbol>
+      <symbol id="icon-plus-circle" viewBox="0 0 24 24">
+        <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"></path>
+        <path d="M12 8v8"></path>
+        <path d="M8 12h8"></path>
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24">
+        <path d="M12 3 5 6v5.4c0 4.1 2.7 7.7 7 9.6 4.3-1.9 7-5.5 7-9.6V6l-7-3Z"></path>
+        <path d="M9 12.2 11 14l4-5"></path>
+      </symbol>
+      <symbol id="icon-vault" viewBox="0 0 24 24">
+        <path d="M5 8h14v12H5Z"></path>
+        <path d="M8 8V6a4 4 0 0 1 8 0v2"></path>
+        <path d="M12 12.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"></path>
+        <path d="M12 12.5v5M9.8 13.7l4.4 2.6M14.2 13.7l-4.4 2.6"></path>
+      </symbol>
+      <symbol id="icon-sword" viewBox="0 0 24 24">
+        <path d="m14 4 6 0-10 10-2-2L18 2"></path>
+        <path d="m8 12 4 4"></path>
+        <path d="m6 14 4 4"></path>
+        <path d="m3 21 5-5"></path>
+      </symbol>
+      <symbol id="icon-crossed-swords" viewBox="0 0 24 24">
+        <path d="m4 4 16 16"></path>
+        <path d="m20 4-7 7"></path>
+        <path d="m11 13-7 7"></path>
+        <path d="M7 3H3v4"></path>
+        <path d="M17 3h4v4"></path>
+        <path d="m8 16-2-2"></path>
+        <path d="m16 16 2-2"></path>
+      </symbol>
+      <symbol id="icon-crown" viewBox="0 0 24 24">
+        <path d="m4 18 1.5-10 4.2 4L12 5l2.3 7 4.2-4L20 18H4Z"></path>
+        <path d="M5 21h14"></path>
+      </symbol>
+      <symbol id="icon-headset" viewBox="0 0 24 24">
+        <path d="M4 13a8 8 0 0 1 16 0"></path>
+        <path d="M4 13v4a2 2 0 0 0 2 2h2v-7H6a2 2 0 0 0-2 2Z"></path>
+        <path d="M20 13v4a2 2 0 0 1-2 2h-2v-7h2a2 2 0 0 1 2 2Z"></path>
+        <path d="M14 21h2a4 4 0 0 0 4-4"></path>
+      </symbol>
+      <symbol id="icon-chain" viewBox="0 0 24 24">
+        <path d="M9.5 14.5 14.5 9.5"></path>
+        <path d="M7.5 12.5 6 14a4 4 0 0 0 5.7 5.7l2-2"></path>
+        <path d="M16.5 11.5 18 10a4 4 0 0 0-5.7-5.7l-2 2"></path>
+      </symbol>
+      <symbol id="icon-scroll" viewBox="0 0 24 24">
+        <path d="M7 4h10a3 3 0 0 1 0 6h-1"></path>
+        <path d="M7 4a3 3 0 0 0-3 3v13h11V7a3 3 0 0 0-3-3"></path>
+        <path d="M8 11h4"></path>
+        <path d="M8 15h5"></path>
+      </symbol>
+      <symbol id="icon-spark" viewBox="0 0 24 24">
+        <path d="M12 3 14 9l6 3-6 3-2 6-2-6-6-3 6-3 2-6Z"></path>
+      </symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24">
+        <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+        <path d="M19 12a7.8 7.8 0 0 0-.1-1l2-1.5-2-3.4-2.4 1a8.4 8.4 0 0 0-1.7-1L14.5 3h-5l-.3 3.1a8.4 8.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8.4 8.4 0 0 0 1.7 1l.3 3.1h5l.3-3.1a8.4 8.4 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5c.1-.3.1-.7.1-1Z"></path>
+      </symbol>
+      <symbol id="icon-chevron" viewBox="0 0 24 24">
+        <path d="m8 10 4 4 4-4"></path>
+      </symbol>
+      <symbol id="icon-collapse" viewBox="0 0 24 24">
+        <path d="M4 5h16v14H4Z"></path>
+        <path d="M10 5v14"></path>
+        <path d="m16 9-3 3 3 3"></path>
+      </symbol>
+    </svg>
+
+    <canvas class="wireframe-canvas" id="wireframe-canvas" aria-hidden="true"></canvas>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Game categories">
+        <nav class="nav-list" aria-label="Game category rail">
+          <section class="nav-category">
+            <button class="nav-category-toggle" type="button" aria-expanded="false" aria-label="Matchmaking" title="Matchmaking">
+              <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-users"></use></svg></span>
+              <span class="nav-label">Matchmaking</span>
+              <svg class="icon chevron" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </button>
+            <div class="nav-category-panel">
+              <button class="nav-item" type="button" data-view-target="matchmaking" aria-label="Find Session" title="Find Session">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-users"></use></svg></span>
+                <span class="nav-label">Find Session</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="matchmaking" aria-label="Create Session" title="Create Session">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-plus-circle"></use></svg></span>
+                <span class="nav-label">Create Session</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="session" aria-label="Session Room" title="Session Room">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-headset"></use></svg></span>
+                <span class="nav-label">Session Room</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="nav-category">
+            <button class="nav-category-toggle" type="button" aria-expanded="false" aria-label="Guilds" title="Guilds">
+              <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-shield"></use></svg></span>
+              <span class="nav-label">Guilds</span>
+              <svg class="icon chevron" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </button>
+            <div class="nav-category-panel">
+              <button class="nav-item" type="button" data-view-target="guild" aria-label="My Guilds" title="My Guilds">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-shield"></use></svg></span>
+                <span class="nav-label">My Guilds</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="guild" aria-label="Trials and Invites" title="Trials and Invites">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-scroll"></use></svg></span>
+                <span class="nav-label">Trials / Invites</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="guild" aria-label="Guild Votes" title="Guild Votes">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-crown"></use></svg></span>
+                <span class="nav-label">Votes</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="nav-category">
+            <button class="nav-category-toggle" type="button" aria-expanded="false" aria-label="World Saves" title="World Saves">
+              <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-vault"></use></svg></span>
+              <span class="nav-label">World Saves</span>
+              <svg class="icon chevron" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+            </button>
+            <div class="nav-category-panel">
+              <button class="nav-item" type="button" data-view-target="world" aria-label="World Vault" title="World Vault">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-vault"></use></svg></span>
+                <span class="nav-label">World Vault</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="world" aria-label="Backup Holder Sync" title="Backup Holder Sync">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-chain"></use></svg></span>
+                <span class="nav-label">Backup Sync</span>
+              </button>
+              <button class="nav-item" type="button" data-view-target="world" aria-label="Sync History" title="Sync History">
+                <span class="nav-icon" aria-hidden="true"><svg class="icon"><use href="#icon-scroll"></use></svg></span>
+                <span class="nav-label">Sync History</span>
+              </button>
+            </div>
+          </section>
+        </nav>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <button class="topbar-peek" type="button" id="topbar-peek" aria-label="Show top menu" aria-expanded="false">
+            <svg class="icon" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+          </button>
+          <div class="topbar-cluster" aria-label="Floating pages">
+            <button class="top-page-pill" type="button" data-view-target="home">Home</button>
+            <div class="profile-hub">
+              <button class="profile-orb" type="button" id="profile-menu-toggle" aria-label="Open profile menu" aria-expanded="false" aria-controls="profile-menu">
+                <span class="player-avatar avatar-large" data-name="Mantas" data-status="online"></span>
+              </button>
+              <div class="profile-menu is-hidden" id="profile-menu">
+                <button type="button" data-view-target="profile">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-user"></use></svg>
+                  Open profile
+                </button>
+                <button type="button" data-view-target="profile">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-settings"></use></svg>
+                  Settings
+                </button>
+                <button type="button" class="logout-placeholder">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-vault"></use></svg>
+                  Logout later
+                </button>
+              </div>
+            </div>
+            <button class="top-page-pill" type="button" data-view-target="friends">Friends</button>
+          </div>
+          <span id="view-title" class="sr-only">Home</span>
+        </header>
+        <button class="back-button is-hidden" type="button" id="back-button" aria-label="Go back">
+          <svg class="icon" aria-hidden="true"><use href="#icon-chevron"></use></svg>
+          <span>Back</span>
+        </button>
+
+        <section class="view is-active" id="view-home" data-view-title="Home">
+          <div class="view-header">
+            <p class="eyebrow">Live hub</p>
+            <h3>What do you want to do tonight?</h3>
+            <p>Find compatible players fast, or jump back into a shared guild world that needs attention.</p>
+          </div>
+
+          <div class="action-grid">
+            <button class="action-card primary-action" type="button" data-view-target="matchmaking">
+              <span class="action-icon" aria-hidden="true"><svg class="icon"><use href="#icon-users"></use></svg></span>
+              <span class="action-kicker">Queue now</span>
+              <strong>Find or Start Session</strong>
+              <small>Search compatible sessions first, or start a temporary waiting session for others to join.</small>
+            </button>
+            <button class="action-card secondary-action" type="button" data-view-target="world">
+              <span class="action-icon" aria-hidden="true"><svg class="icon"><use href="#icon-vault"></use></svg></span>
+              <span class="action-kicker">Guild world</span>
+              <strong>Continue shared world</strong>
+              <small>Check safety, backup holders, and handoff state before playing.</small>
+            </button>
+          </div>
+
+          <div class="live-strip" aria-label="Live activity">
+            <span>Live: 18 players in chill survival queues</span>
+            <span>3 Valheim trial rooms forming</span>
+            <span>Mist Coast is Safe</span>
+            <span>Copper Moon needs sync</span>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-panel">
+              <span class="metric-label">Match fit</span>
+              <strong>92%</strong>
+              <p>Valheim, EU evenings, chill voice, survival focus.</p>
+            </article>
+            <article class="metric-panel">
+              <span class="metric-label">Session mode</span>
+              <strong>Fresh Trial</strong>
+              <p>Recommended for first sessions with random players.</p>
+            </article>
+            <article class="metric-panel warning">
+              <span class="metric-label">World safety</span>
+              <strong>Safe</strong>
+              <p>Latest version exists on 3 backup holders.</p>
+            </article>
+          </div>
+
+          <div class="content-grid two-col">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Tonight's squad</p>
+                  <h4>Suggested group</h4>
+                </div>
+                <span class="status-pill good">Ready soon</span>
+              </div>
+              <div class="squad-row">
+                <span class="player-avatar" data-name="Mantas" data-status="online" data-role-badge="host"></span>
+                <div>
+                  <strong>Mantas</strong>
+                  <span>Chill host, good comms</span>
+                </div>
+                <span class="score">94%</span>
+              </div>
+              <div class="squad-row">
+                <span class="player-avatar" data-name="Rasa" data-status="online"></span>
+                <div>
+                  <strong>Rasa</strong>
+                  <span>Builder, patient, mic on</span>
+                </div>
+                <span class="score">91%</span>
+              </div>
+              <div class="squad-row">
+                <span class="player-avatar" data-name="Eli" data-status="away"></span>
+                <div>
+                  <strong>Eli</strong>
+                  <span>Explorer, quiet but helpful</span>
+                </div>
+                <span class="score">88%</span>
+              </div>
+              <button class="primary-button" type="button" data-view-target="matchmaking">Find or Start Session</button>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Games in focus</p>
+                  <h4>Co-op queue</h4>
+                </div>
+              </div>
+              <div class="game-strip">
+                <button class="game-cover valheim" type="button" data-view-target="matchmaking">
+                  <span>Valheim</span>
+                </button>
+                <button class="game-cover minecraft" type="button" data-view-target="matchmaking">
+                  <span>Minecraft</span>
+                </button>
+                <button class="game-cover terraria" type="button" data-view-target="matchmaking">
+                  <span>Terraria</span>
+                </button>
+              </div>
+              <div class="plain-list">
+                <div>
+                  <strong>Best current queue</strong>
+                  <span>Valheim, 4 players, EU timezone</span>
+                </div>
+                <div>
+                  <strong>Guild handoff preview</strong>
+                  <span>Backup Holder Sync mock status is visible.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-profile" data-view-title="Player Profile">
+          <div class="view-header">
+            <p class="eyebrow">Player identity</p>
+            <h3>Mantas wants regular co-op friends.</h3>
+              <p>The profile focuses on compatibility, claimed vibe, and verified tags instead of public negative review walls.</p>
+          </div>
+
+          <div class="profile-layout">
+            <section class="profile-card">
+              <div class="profile-main">
+                <span class="player-avatar avatar-large" data-name="Mantas" data-status="online" data-role-badge="host" data-verified="true"></span>
+                <div>
+                  <h4>Mantas</h4>
+                  <p>Europe/Vilnius, English and Lithuanian, evenings after 20:00.</p>
+                </div>
+              </div>
+              <div class="tag-row">
+                <span class="tag strong">Chill</span>
+                <span class="tag strong">Good comms</span>
+                <span class="tag strong">Survival co-op</span>
+                <span class="tag">Mic preferred</span>
+                <span class="tag">Long-term friends</span>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Verified vibe</p>
+                  <h4>Post-session confirmations</h4>
+                </div>
+                <span class="status-pill good">86% accurate</span>
+              </div>
+              <div class="verification-list">
+                <div>
+                  <span>Chill</span>
+                  <progress value="18" max="20"></progress>
+                  <strong>18</strong>
+                </div>
+                <div>
+                  <span>Good comms</span>
+                  <progress value="16" max="20"></progress>
+                  <strong>16</strong>
+                </div>
+                <div>
+                  <span>Reliable host</span>
+                  <progress value="14" max="20"></progress>
+                  <strong>14</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Game fit</p>
+                  <h4>Current co-op games</h4>
+                </div>
+              </div>
+              <div class="game-list">
+                <div>
+                  <span class="game-dot valheim"></span>
+                  <strong>Valheim</strong>
+                  <span>Can host fresh trial worlds</span>
+                </div>
+                <div>
+                  <span class="game-dot minecraft"></span>
+                  <strong>Minecraft Java</strong>
+                  <span>Prefers joining servers</span>
+                </div>
+                <div>
+                  <span class="game-dot terraria"></span>
+                  <strong>Terraria</strong>
+                  <span>Can join, casual pace</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-matchmaking" data-view-title="Matchmaking">
+          <div class="view-header">
+            <p class="eyebrow">Find or start</p>
+            <h3>Search open sessions first, then start one if needed.</h3>
+            <p>Pick the game, session type, vibe, and hosting comfort. The app checks compatible open sessions before offering to create a temporary waiting session for tonight.</p>
+          </div>
+
+          <div class="content-grid match-grid">
+            <section class="panel controls-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Step flow</p>
+                  <h4>Tonight's queue</h4>
+                </div>
+              </div>
+
+              <div class="match-steps">
+                <div class="step-block">
+                  <span class="step-number">1</span>
+                  <div>
+                    <strong>Choose game</strong>
+                    <div class="choice-grid">
+                      <button class="choice-chip is-selected" type="button">Valheim</button>
+                      <button class="choice-chip" type="button">Minecraft</button>
+                      <button class="choice-chip" type="button">Terraria</button>
+                      <button class="choice-chip" type="button">Project Zomboid</button>
+                      <button class="choice-chip" type="button">Deep Rock Galactic</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-block">
+                  <span class="step-number">2</span>
+                  <div>
+                    <strong>Choose session type</strong>
+                    <div class="choice-grid">
+                      <button class="choice-chip is-selected recommended" type="button" data-session-type="fresh">Fresh Trial World</button>
+                      <button class="choice-chip risky" type="button" data-session-type="host-owned">Host-Owned Casual World</button>
+                      <button class="choice-chip safe" type="button" data-session-type="server">Public/Dedicated Server</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-block">
+                  <span class="step-number">3</span>
+                  <div>
+                    <strong>Choose vibe</strong>
+                    <div class="choice-grid">
+                      <button class="choice-chip is-selected" type="button">Chill</button>
+                      <button class="choice-chip is-selected" type="button">Beginner-friendly</button>
+                      <button class="choice-chip" type="button">Focused</button>
+                      <button class="choice-chip" type="button">Funny chaos</button>
+                      <button class="choice-chip" type="button">No-rush building</button>
+                      <button class="choice-chip" type="button">Mic required</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-block">
+                  <span class="step-number">4</span>
+                  <div>
+                    <strong>Hosting preference</strong>
+                    <div class="segmented-control" aria-label="Hosting preference">
+                      <button class="is-selected" type="button" data-host-pref="can-host">I can host</button>
+                      <button type="button" data-host-pref="prefer-joining">Prefer joining</button>
+                      <button type="button" data-host-pref="any">Any is fine</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="segmented-control" aria-label="Microphone preference">
+                <button class="is-selected" type="button">Mic on</button>
+                <button type="button">Mic optional</button>
+                <button type="button">No mic</button>
+              </div>
+              <div class="duel-choice" aria-label="Ally or compete preference">
+                <button class="duel-option is-selected" type="button">
+                  <span aria-hidden="true"><svg class="icon"><use href="#icon-shield"></use></svg></span>
+                  <strong>Ally run</strong>
+                  <small>Co-op first</small>
+                </button>
+                <button class="duel-option" type="button">
+                  <span aria-hidden="true"><svg class="icon"><use href="#icon-crossed-swords"></use></svg></span>
+                  <strong>Compete / Rival</strong>
+                  <small>Friendly pressure</small>
+                </button>
+              </div>
+              <button class="primary-button queue-button" type="button" id="mock-match-button">Find or Start Session</button>
+            </section>
+
+            <section class="panel queue-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Existing sessions</p>
+                  <h4 id="queue-title">Ready to scan</h4>
+                </div>
+                <span class="status-pill neutral" id="queue-status-pill">Idle</span>
+              </div>
+              <div class="queue-timer">
+                <span>Search time</span>
+                <strong id="search-timer">00:00</strong>
+              </div>
+              <div class="queue-orbit" aria-hidden="true">
+                <div class="queue-core">GB</div>
+              </div>
+              <div class="queue-lines">
+                <span id="queue-line-1">checking open sessions</span>
+                <span id="queue-line-2">matching games</span>
+                <span id="queue-line-3">matching vibe</span>
+                <span id="queue-line-4">checking host availability</span>
+                <span id="queue-line-5">preparing options</span>
+              </div>
+              <div class="match-reasons">
+                <span>Valheim selected</span>
+                <span>EU evening overlap</span>
+                <span>Mic preferred</span>
+                <span>Chill + good comms</span>
+                <span>Fresh host available</span>
+              </div>
+              <div class="candidate-list">
+                <article class="candidate">
+                  <span class="player-avatar" data-name="Rasa" data-status="online"></span>
+                  <div>
+                    <strong>Rasa</strong>
+                    <span>Builder, patient, friendly</span>
+                  </div>
+                  <b>91%</b>
+                </article>
+                <article class="candidate">
+                  <span class="player-avatar" data-name="Eli" data-status="away"></span>
+                  <div>
+                    <strong>Eli</strong>
+                    <span>Explorer, quiet but helpful</span>
+                  </div>
+                  <b>88%</b>
+                </article>
+                <article class="candidate">
+                  <span class="player-avatar" data-name="Nora" data-status="online" data-role-badge="trusted"></span>
+                  <div>
+                    <strong>Nora</strong>
+                    <span>Reliable, good leader</span>
+                  </div>
+                  <b>84%</b>
+                </article>
+              </div>
+              <button class="ghost-button" type="button" data-view-target="session">Preview existing session room</button>
+            </section>
+
+            <section class="panel waiting-session-panel is-hidden" id="waiting-session-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Create waiting session</p>
+                  <h4>Session started</h4>
+                </div>
+                <span class="status-pill neutral" id="waiting-status-pill">Waiting</span>
+              </div>
+              <p class="notice safe" id="waiting-status-text">Waiting for compatible players...</p>
+              <div class="session-meta">
+                <div>
+                  <span>Game</span>
+                  <strong>Valheim</strong>
+                </div>
+                <div>
+                  <span>Session type</span>
+                  <strong id="waiting-session-type">Fresh Trial World</strong>
+                </div>
+                <div>
+                  <span>Vibe</span>
+                  <strong>Chill / No-rush</strong>
+                </div>
+              </div>
+              <div class="session-meta">
+                <div>
+                  <span>Host status</span>
+                  <strong id="waiting-host-status">You are Host Candidate</strong>
+                </div>
+                <div>
+                  <span>Players</span>
+                  <strong id="waiting-player-count">1/4</strong>
+                </div>
+                <div>
+                  <span>Visibility</span>
+                  <strong>Visible to compatible searches</strong>
+                </div>
+              </div>
+              <p class="notice danger is-hidden" id="waiting-host-warning">Using an existing personal world may expose your progress and allow strangers to affect your save.</p>
+              <div class="waiting-slots" id="waiting-slots">
+                <div class="slot is-ready"><span class="player-avatar avatar-small" data-name="Mantas" data-status="online" data-role-badge="host"></span><small>You</small></div>
+                <div class="slot is-empty"><span>+</span><small>Open</small></div>
+                <div class="slot is-empty"><span>+</span><small>Open</small></div>
+                <div class="slot is-empty"><span>+</span><small>Open</small></div>
+              </div>
+              <div class="modal-actions">
+                <button class="ghost-button danger-text" type="button" id="cancel-waiting-session">Cancel Session</button>
+                <button class="ghost-button" type="button">Edit Session</button>
+                <button class="ghost-button" type="button">Invite Friend later</button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-session" data-view-title="Temporary Session">
+          <div class="view-header">
+            <p class="eyebrow">Trial room</p>
+            <h3>Valheim session for testing group vibe.</h3>
+            <p>Strangers start in a temporary space before they become friends or form a guild.</p>
+          </div>
+
+          <div class="content-grid session-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">World mode</p>
+                  <h4>Fresh Trial World</h4>
+                </div>
+                <span class="status-pill good">Recommended</span>
+              </div>
+              <p class="notice safe">Temporary sessions are best hosted on a new world. Existing personal worlds can expose progress and let strangers affect the save.</p>
+              <div class="session-meta">
+                <div>
+                  <span>Host</span>
+                  <strong>Mantas</strong>
+                </div>
+                <div>
+                  <span>Backup host</span>
+                  <strong>Nora</strong>
+                </div>
+                <div>
+                  <span>Schedule</span>
+                  <strong>20:30 to 22:30</strong>
+                </div>
+              </div>
+              <div class="button-row">
+                <button class="primary-button" type="button" id="ready-toggle">Ready up</button>
+                <button class="ghost-button" type="button" id="show-warning">Use existing world</button>
+              </div>
+              <div class="notice danger is-hidden" id="existing-world-warning">
+                You are about to host a temporary session on an existing world. Strangers may affect your world, progress may change or be lost, and this world is still host-owned, not a shared guild world.
+              </div>
+              <div class="lobby-actions">
+                <button class="ghost-button" type="button">Leave session</button>
+                <button class="ghost-button danger-text" type="button">Report issue</button>
+                <button class="ghost-button" type="button">End session</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Players</p>
+                  <h4>Ready check</h4>
+                </div>
+                <span class="status-pill neutral" id="ready-count">2/4 ready</span>
+              </div>
+              <div class="roster">
+                <div>
+                  <span class="player-avatar" data-name="Mantas" data-status="online" data-role-badge="host"></span>
+                  <span>Mantas</span>
+                  <strong id="mantas-ready">Not ready</strong>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Rasa" data-status="online"></span>
+                  <span>Rasa</span>
+                  <strong>Ready</strong>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Eli" data-status="away"></span>
+                  <span>Eli</span>
+                  <strong>Ready</strong>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Nora" data-status="online" data-role-badge="trusted"></span>
+                  <span>Nora</span>
+                  <strong>Not ready</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel voice-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Session voice</p>
+                  <h4>Active voice room</h4>
+                </div>
+                <span class="status-pill good">3 connected</span>
+              </div>
+              <div class="voice-list">
+                <div>
+                  <span class="voice-dot speaking"></span>
+                  <strong>Rasa</strong>
+                  <span>Speaking</span>
+                </div>
+                <div>
+                  <span class="voice-dot"></span>
+                  <strong>Mantas</strong>
+                  <span>Muted</span>
+                </div>
+                <div>
+                  <span class="voice-dot"></span>
+                  <strong>Eli</strong>
+                  <span>Listening</span>
+                </div>
+              </div>
+              <div class="button-row compact">
+                <button class="ghost-button" type="button">Mute</button>
+                <button class="ghost-button" type="button">Deafen</button>
+                <button class="ghost-button" type="button">Leave voice</button>
+              </div>
+            </section>
+
+            <section class="panel chat-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Session chat</p>
+                  <h4>Coordination only</h4>
+                </div>
+              </div>
+              <div class="chat-log" aria-live="polite">
+                <p><strong>Rasa:</strong> Fresh world sounds good.</p>
+                <p><strong>Eli:</strong> I can gather and scout first.</p>
+                <p><strong>Nora:</strong> Backup host ready if needed.</p>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" value="Starting with a fresh seed." aria-label="Mock chat message">
+                <button class="ghost-button" type="button">Send</button>
+              </div>
+            </section>
+
+            <section class="panel post-session-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">After session</p>
+                  <h4>How was this group?</h4>
+                </div>
+                <span class="status-pill neutral">Structured feedback</span>
+              </div>
+              <div class="feedback-grid">
+                <button type="button">Would play again</button>
+                <button type="button">Add as friend</button>
+                <button type="button" data-view-target="guild">Create guild</button>
+                <button type="button">Not a fit</button>
+                <button type="button">Avoid future matches</button>
+                <button type="button">Report issue</button>
+              </div>
+              <div class="future-controls">
+                <span>3+ player placeholders</span>
+                <button class="ghost-button" type="button">Vote mute</button>
+                <button class="ghost-button" type="button">Remove from session</button>
+                <button class="ghost-button" type="button">Host issue</button>
+                <button class="ghost-button" type="button">Reform without host</button>
+              </div>
+              <p class="notice">For 2-player sessions, there is no vote-kick. Use leave, avoid future matches, or report.</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-friends" data-view-title="Friends">
+          <div class="view-header">
+            <p class="eyebrow">Gaming friends</p>
+            <h3>Keep good matches easy to reach.</h3>
+            <p>Friends are separate from guilds. A good temporary session can become a direct gaming connection without forcing a group structure.</p>
+          </div>
+
+          <div class="content-grid friends-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Friends list</p>
+                  <h4>Recent good matches</h4>
+                </div>
+                <span class="status-pill good">2 online</span>
+              </div>
+              <div class="friend-list">
+                <button class="friend-item is-selected" type="button">
+                  <span class="player-avatar" data-name="Rasa" data-status="online"></span>
+                  <span>
+                    <strong>Rasa</strong>
+                    <small>Online, Valheim</small>
+                  </span>
+                </button>
+                <button class="friend-item" type="button">
+                  <span class="player-avatar" data-name="Eli" data-status="online"></span>
+                  <span>
+                    <strong>Eli</strong>
+                    <small>Online, Minecraft Java</small>
+                  </span>
+                </button>
+                <button class="friend-item" type="button">
+                  <span class="player-avatar is-offline" data-name="Nora" data-status="offline" data-role-badge="trusted"></span>
+                  <span>
+                    <strong>Nora</strong>
+                    <small>Offline, reliable host</small>
+                  </span>
+                </button>
+              </div>
+            </section>
+
+            <section class="panel chat-panel direct-chat">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Direct chat</p>
+                  <h4>Rasa</h4>
+                </div>
+                <button class="ghost-button" type="button">Invite to session</button>
+              </div>
+              <div class="chat-log" aria-live="polite">
+                <p><strong>Rasa:</strong> That trial run was good. Want to continue tonight?</p>
+                <p><strong>Mantas:</strong> Yes, I am queueing for Valheim around 20:30.</p>
+                <p><strong>Rasa:</strong> Nice, invite me if the group forms.</p>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" value="I will send an invite after matchmaking." aria-label="Friend chat message">
+                <button class="ghost-button" type="button">Send</button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-guild" data-view-title="Guild">
+          <div class="view-header">
+            <p class="eyebrow">No-owner micro-guild</p>
+            <h3>The Hearthbound Four</h3>
+            <p>A small guild created after a good session. It has focused text and voice spaces for playing together, but no endless public channels.</p>
+          </div>
+
+          <div class="content-grid guild-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Members</p>
+                  <h4>Founders and regulars</h4>
+                </div>
+                <span class="status-pill neutral">4/12</span>
+              </div>
+              <div class="member-table">
+                <div>
+                  <span class="player-avatar" data-name="Mantas" data-status="online" data-role-badge="founder"></span>
+                  <span>
+                    <strong>Mantas</strong>
+                    <small>Founder, reliable host</small>
+                  </span>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Rasa" data-status="online" data-role-badge="founder"></span>
+                  <span>
+                    <strong>Rasa</strong>
+                    <small>Founder, active member</small>
+                  </span>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Eli" data-status="away" data-role-badge="founder"></span>
+                  <span>
+                    <strong>Eli</strong>
+                    <small>Founder, quiet but helpful</small>
+                  </span>
+                </div>
+                <div>
+                  <span class="player-avatar" data-name="Nora" data-status="online" data-role-badge="trusted"></span>
+                  <span>
+                    <strong>Nora</strong>
+                    <small>Trusted regular, backup host</small>
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel ownership-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Guild ownership</p>
+                  <h4>No owner</h4>
+                </div>
+                <span class="status-pill good">3 founders</span>
+              </div>
+              <div class="rule-list">
+                <div>
+                  <strong>Founders are history</strong>
+                  <span>Founder badge means origin member, not control.</span>
+                </div>
+                <div>
+                  <strong>People decisions</strong>
+                  <span>Accept, remove, ban, split, delete, and merge use equal votes.</span>
+                </div>
+                <div>
+                  <strong>Responsibility decisions</strong>
+                  <span>Trusted host, game focus, recruitment, and world permissions can use hidden trust-weighted voting.</span>
+                </div>
+                <div>
+                  <strong>Clean split</strong>
+                  <span>Guild can split if interests diverge; no founder blocks it alone.</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel chat-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Guild text chat</p>
+                  <h4>Focused group chat</h4>
+                </div>
+              </div>
+              <div class="chat-log" aria-live="polite">
+                <p><strong>Nora:</strong> I can backup host the Mist Coast world tonight.</p>
+                <p><strong>Eli:</strong> I need ten minutes after work, then I am good.</p>
+                <p><strong>Rasa:</strong> Let us keep the build plan in one place.</p>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" value="I can play after 20:30." aria-label="Guild chat message">
+                <button class="ghost-button" type="button">Send</button>
+              </div>
+            </section>
+
+            <section class="panel voice-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Guild voice</p>
+                  <h4>Active room</h4>
+                </div>
+                <span class="status-pill neutral">Small room</span>
+              </div>
+              <div class="voice-list">
+                <div>
+                  <span class="voice-dot speaking"></span>
+                  <strong>Mantas</strong>
+                  <span>Speaking</span>
+                </div>
+                <div>
+                  <span class="voice-dot"></span>
+                  <strong>Nora</strong>
+                  <span>Listening</span>
+                </div>
+                <div>
+                  <span class="voice-dot"></span>
+                  <strong>Rasa</strong>
+                  <span>Muted</span>
+                </div>
+              </div>
+              <div class="button-row compact">
+                <button class="ghost-button" type="button">Join voice</button>
+                <button class="ghost-button" type="button">Mute</button>
+                <button class="ghost-button" type="button">Leave</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Setup wizard</p>
+                  <h4>What kind of guild is this?</h4>
+                </div>
+              </div>
+              <div class="choice-grid setup-choice-grid">
+                <button class="choice-chip is-selected" type="button">Co-op survival / shared world</button>
+                <button class="choice-chip" type="button">Competitive multiplayer</button>
+                <button class="choice-chip" type="button">Casual party games</button>
+                <button class="choice-chip" type="button">Mixed games</button>
+              </div>
+              <div class="module-grid">
+                <span>Trusted Host</span>
+                <span>Backup Host</span>
+                <span>Shared World Handoff</span>
+                <span>Trial Recruitment</span>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Current vote</p>
+                  <h4>Accept trial member?</h4>
+                </div>
+                <span class="status-pill neutral">Equal vote</span>
+              </div>
+              <p class="notice">People decisions use equal votes. Hidden trust weighting is reserved for responsibility and direction decisions.</p>
+              <div class="vote-bars">
+                <div>
+                  <span>Accept</span>
+                  <progress value="3" max="4"></progress>
+                  <strong>3</strong>
+                </div>
+                <div>
+                  <span>Retry</span>
+                  <progress value="1" max="4"></progress>
+                  <strong>1</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-world" data-view-title="Shared World">
+          <div class="view-header">
+            <p class="eyebrow">Guild world metadata</p>
+            <h3>Keep shared worlds playable when the host is offline.</h3>
+            <p>Shared-world status shows whether the latest progress is available, protected, or at risk.</p>
+          </div>
+
+          <div class="status-rail">
+            <span class="status-pill good">Safe</span>
+            <span class="status-pill danger">Unsafe</span>
+            <span class="status-pill neutral">Checked Out</span>
+            <span class="status-pill neutral">Syncing</span>
+            <span class="status-pill danger">Unavailable</span>
+            <span class="status-pill danger">Conflict</span>
+          </div>
+
+          <div class="content-grid world-grid">
+            <section class="panel world-card">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Valheim</p>
+                  <h4>Mist Coast</h4>
+                </div>
+                <span class="status-pill good">Safe</span>
+              </div>
+              <div class="world-visual valheim">
+                <span>v18</span>
+              </div>
+              <div class="session-meta">
+                <div>
+                  <span>Status</span>
+                  <strong>Available</strong>
+                </div>
+                <div>
+                  <span>Latest copy</span>
+                  <strong>3/3 holders</strong>
+                </div>
+                <div>
+                  <span>Checked out</span>
+                  <strong>No</strong>
+                </div>
+              </div>
+              <div class="world-actions">
+                <button class="primary-button" type="button">Play shared world</button>
+                <button class="ghost-button" type="button">Version history</button>
+                <button class="ghost-button" type="button">Backup holders</button>
+              </div>
+            </section>
+
+            <section class="panel world-card">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Terraria</p>
+                  <h4>Copper Moon</h4>
+                </div>
+                <span class="status-pill danger">Unsafe</span>
+              </div>
+              <div class="world-visual terraria">
+                <span>v7</span>
+              </div>
+              <p class="notice danger">Latest version exists only on Eli's PC. The world should not be marked Safe until backup holders receive it.</p>
+              <div class="plain-list">
+                <div class="holder-row">
+                  <span class="player-avatar avatar-small" data-name="Eli" data-status="online"></span>
+                  <span>
+                    <strong>Eli PC</strong>
+                    <small>Latest version</small>
+                  </span>
+                </div>
+                <div class="holder-row">
+                  <span class="player-avatar avatar-small" data-name="Mantas" data-status="away"></span>
+                  <span>
+                    <strong>Mantas PC</strong>
+                    <small>Needs sync</small>
+                  </span>
+                </div>
+                <div class="holder-row">
+                  <span class="player-avatar avatar-small" data-name="Rasa" data-status="offline"></span>
+                  <span>
+                    <strong>Rasa PC</strong>
+                    <small>Offline</small>
+                  </span>
+                </div>
+              </div>
+              <div class="world-actions">
+                <button class="primary-button warning-action" type="button">Request sync</button>
+                <button class="ghost-button" type="button">View risk</button>
+                <button class="ghost-button" type="button">Wait for holder</button>
+              </div>
+            </section>
+
+            <section class="panel world-card">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Minecraft Java</p>
+                  <h4>Riverhold Realm</h4>
+                </div>
+                <span class="status-pill neutral">Checked Out</span>
+              </div>
+              <div class="world-visual minecraft">
+                <span>v12</span>
+              </div>
+              <div class="session-meta">
+                <div>
+                  <span>Checked out by</span>
+                  <strong>Nora</strong>
+                </div>
+                <div>
+                  <span>Started</span>
+                  <strong>21:05</strong>
+                </div>
+                <div>
+                  <span>Backup state</span>
+                  <strong>Locked</strong>
+                </div>
+              </div>
+              <div class="world-actions">
+                <button class="primary-button" type="button">Join session</button>
+                <button class="ghost-button" type="button">Ask for handoff</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Storage direction</p>
+                  <h4>MVP boundary</h4>
+                </div>
+              </div>
+              <p class="notice">The app does not promise magic offline access. A world is safe only when the latest save exists on enough backup holders.</p>
+              <div class="plain-list">
+                <div>
+                  <strong>Free</strong>
+                  <span>Backup Holder Sync using guild members' PCs.</span>
+                </div>
+                <div>
+                  <strong>Premium later</strong>
+                  <span>Hosted World Vault with version history.</span>
+                </div>
+                <div>
+                  <strong>Not in MVP</strong>
+                  <span>No Google Drive, Dropbox, OneDrive, or BYO cloud.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="match-found-overlay is-hidden" id="match-found-overlay" role="dialog" aria-modal="true" aria-labelledby="match-found-title">
+      <section class="match-found-card">
+        <p class="eyebrow">Queue pop</p>
+        <h2 id="match-found-title">SESSION FOUND</h2>
+        <p>4 compatible players ready</p>
+        <div class="found-session-meta">
+          <span>Fresh Trial World: Valheim</span>
+          <span>Accept before timer ends</span>
+        </div>
+        <div class="countdown-ring" id="match-countdown">18</div>
+        <div class="found-slots">
+          <div class="slot is-ready"><span class="player-avatar avatar-small" data-name="Mantas" data-status="online" data-role-badge="host"></span><small>Ready</small></div>
+          <div class="slot is-ready"><span class="player-avatar avatar-small" data-name="Rasa" data-status="online"></span><small>Ready</small></div>
+          <div class="slot is-ready"><span class="player-avatar avatar-small" data-name="Eli" data-status="away"></span><small>Ready</small></div>
+          <div class="slot"><span class="player-avatar avatar-small" data-name="Nora" data-status="online" data-role-badge="trusted"></span><small>Waiting</small></div>
+        </div>
+        <div class="modal-actions">
+          <button class="primary-button" type="button" id="accept-match">Accept Session</button>
+          <button class="ghost-button" type="button" id="decline-match">Decline</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="match-found-overlay is-hidden" id="no-session-overlay" role="dialog" aria-modal="true" aria-labelledby="no-session-title">
+      <section class="match-found-card no-session-card">
+        <p class="eyebrow">Search result</p>
+        <h2 id="no-session-title">No compatible session found yet.</h2>
+        <p>Start a new temporary waiting session and let matching players join you?</p>
+        <div class="found-session-meta">
+          <span>Valheim</span>
+          <span>Fresh Trial World recommended</span>
+          <span>Temporary session for tonight</span>
+        </div>
+        <div class="modal-actions">
+          <button class="primary-button" type="button" id="start-new-session">Start New Session</button>
+          <button class="ghost-button" type="button" id="keep-searching">Keep Searching</button>
+          <button class="ghost-button" type="button" id="change-filters">Change Filters</button>
+          <button class="ghost-button" type="button" id="cancel-search">Cancel</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
