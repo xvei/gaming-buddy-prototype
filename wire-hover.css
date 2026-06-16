@@ -9,12 +9,16 @@ button[data-corner-runners] {
   overflow: hidden;
 }
 
+.nav-category-toggle[data-corner-runners] {
+  overflow: visible !important;
+}
+
 button[data-corner-runners] > :not(.button-corner-runner),
 .nav-category-toggle .nav-icon,
 .nav-category-toggle .nav-label,
 .nav-category-toggle .chevron {
   position: relative;
-  z-index: 4;
+  z-index: 8;
 }
 
 .button-corner-runner {
@@ -56,6 +60,13 @@ button[data-corner-runners] > :not(.button-corner-runner),
   transform: translateZ(0);
 }
 
+.runner-two,
+.runner-two::before,
+.runner-two::after {
+  display: none !important;
+  animation: none !important;
+}
+
 .runner-two::before,
 .runner-two::after {
   content: "";
@@ -91,33 +102,43 @@ button:focus-visible > .runner-one {
 
 button:hover > .runner-two,
 button:focus-visible > .runner-two {
-  animation: wire-node-map var(--wire-hover-time) var(--wire-hover-ease) both;
+  animation: none;
 }
 
 button:hover > .runner-two::before,
 button:focus-visible > .runner-two::before {
-  animation: wire-corner-trace-a var(--wire-hover-time) var(--wire-hover-ease) both;
+  animation: none;
 }
 
 button:hover > .runner-two::after,
 button:focus-visible > .runner-two::after {
-  animation: wire-corner-trace-b var(--wire-hover-time) var(--wire-hover-ease) both;
+  animation: none;
 }
 
 .nav-category-toggle .nav-icon,
 .nav-category-toggle .nav-icon .icon {
   color: currentColor;
+  display: grid !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
 .nav-category-toggle .nav-label {
   clip-path: inset(0 100% 0 0);
+  opacity: 0 !important;
   transform-origin: left center;
 }
 
+.nav-category-toggle .chevron {
+  display: block !important;
+}
+
 .nav-category:not(.is-open):hover .nav-category-toggle .nav-label,
-.nav-category:not(.is-open):hover .nav-category-toggle .chevron {
+.nav-category:not(.is-open):hover .nav-category-toggle:hover .nav-label,
+.nav-category:not(.is-open):hover .nav-category-toggle .chevron,
+.nav-category:not(.is-open):hover .nav-category-toggle:hover .chevron {
+  clip-path: inset(0 0 0 0);
+  opacity: 1 !important;
   animation: sidebar-label-unfold 300ms var(--wire-hover-ease) both;
 }
 
@@ -206,6 +227,25 @@ button:focus-visible > .runner-two::after {
 .tilt-surface:hover,
 .tilt-surface.is-pointer-tilting {
   --tilt-lift: -2px;
+}
+
+.back-button.tilt-surface,
+.nav-category-toggle.tilt-surface,
+.top-page-pill.tilt-surface {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --tilt-lift: 0px;
+}
+
+.back-button {
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+.back-button span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .tilt-surface > * {
