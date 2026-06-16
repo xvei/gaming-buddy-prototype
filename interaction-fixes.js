@@ -3,6 +3,7 @@
 
   const root = document.documentElement;
   root.classList.add("gb-interactions-ready");
+  root.classList.add("gb-interactions-v2");
 
   function onReady(callback) {
     if (document.readyState === "loading") {
@@ -126,6 +127,10 @@
     function syncBackButton() {
       const activeViewName = getActiveViewName();
       backButton.classList.toggle("is-hidden", activeViewName === "home" || depth <= 0);
+      backButton.classList.remove("is-pointer-tilting");
+      backButton.classList.remove("tilt-surface");
+      backButton.style.removeProperty("--tilt-x");
+      backButton.style.removeProperty("--tilt-y");
     }
 
     const originalUpdateBackButton = window.updateBackButton;
@@ -139,7 +144,7 @@
     document.addEventListener("click", (event) => {
       if (event.target.closest("#back-button")) {
         depth = Math.max(0, depth - 1);
-        window.setTimeout(syncBackButton, 0);
+        [0, 80, 180].forEach((delay) => window.setTimeout(syncBackButton, delay));
         return;
       }
 
@@ -152,8 +157,12 @@
       if (target && target !== getActiveViewName()) {
         depth += 1;
       }
-      window.setTimeout(syncBackButton, 0);
+      [0, 80, 180].forEach((delay) => window.setTimeout(syncBackButton, delay));
     }, true);
+
+    window.addEventListener("hashchange", () => {
+      [0, 80, 180].forEach((delay) => window.setTimeout(syncBackButton, delay));
+    });
 
     if (mainArea) {
       const observer = new MutationObserver(syncBackButton);
@@ -163,10 +172,22 @@
     syncBackButton();
   }
 
+  function sanitizeFloatingNavigation() {
+    document.querySelectorAll(".nav-category-toggle .button-corner-runner, .back-button .button-corner-runner").forEach((runner) => {
+      runner.remove();
+    });
+
+    document.querySelectorAll(".nav-category-toggle, .back-button, .top-page-pill").forEach((button) => {
+      button.classList.remove("tilt-surface");
+      button.classList.remove("is-pointer-tilting");
+      button.style.removeProperty("--tilt-x");
+      button.style.removeProperty("--tilt-y");
+    });
+  }
+
   function installPointerTilt() {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const tiltSelector = [
-      "button[data-corner-runners]",
       ".action-card",
       ".game-cover",
       ".duel-option",
@@ -175,60 +196,108 @@
       ".panel",
       ".profile-card",
       ".world-card",
+      ".primary-button",
+      ".ghost-button",
+      ".choice-chip",
+      ".feedback-actions button",
+      ".button-row button",
+      ".lobby-actions button",
+      ".world-actions button",
+      ".modal-actions button",
+      ".chat-input-row button",
     ].join(",");
+    let activeSurface = null;
+    let activeRect = null;
+    let tiltFrame = 0;
+
+    function inflatedContains(rect, event, padding = 18) {
+      return event.clientX >= rect.left - padding
+        && event.clientX <= rect.right + padding
+        && event.clientY >= rect.top - padding
+        && event.clientY <= rect.bottom + padding;
+    }
+
+    function resetTilt(surface = activeSurface) {
+      if (!surface) {
+        return;
+      }
+      surface.classList.remove("is-pointer-tilting");
+      surface.style.setProperty("--tilt-x", "0deg");
+      surface.style.setProperty("--tilt-y", "0deg");
+      if (tiltFrame) {
+        cancelAnimationFrame(tiltFrame);
+        tiltFrame = 0;
+      }
+      if (surface === activeSurface) {
+        activeSurface = null;
+        activeRect = null;
+      }
+    }
+
+    function updateTilt(surface, rect, event) {
+      const normalizedX = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2));
+      const normalizedY = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2));
+      const maxTilt = surface.matches(".panel, .metric-panel, .profile-card, .action-card, .game-cover, .world-card")
+        ? 3.6
+        : 2.4;
+
+      surface.classList.add("is-pointer-tilting");
+      if (tiltFrame) {
+        cancelAnimationFrame(tiltFrame);
+      }
+      tiltFrame = requestAnimationFrame(() => {
+        surface.style.setProperty("--tilt-x", `${(normalizedX * maxTilt).toFixed(2)}deg`);
+        surface.style.setProperty("--tilt-y", `${(-normalizedY * maxTilt).toFixed(2)}deg`);
+        tiltFrame = 0;
+      });
+    }
+
+    document.addEventListener("pointermove", (event) => {
+      if (!activeSurface || !activeRect) {
+        return;
+      }
+      if (!inflatedContains(activeRect, event)) {
+        resetTilt(activeSurface);
+        return;
+      }
+      updateTilt(activeSurface, activeRect, event);
+    }, true);
 
     document.querySelectorAll(tiltSelector).forEach((surface) => {
-      if (surface.matches(".topbar-peek") || surface.dataset.tiltReady === "true") {
+      if (surface.matches(".topbar-peek, .top-page-pill, .nav-category-toggle, .back-button, .profile-orb, .profile-menu button, .nav-item") || surface.dataset.tiltReady === "true") {
         return;
       }
 
       surface.dataset.tiltReady = "true";
       surface.classList.add("tilt-surface");
-      let tiltFrame = 0;
 
-      function resetTilt() {
-        surface.classList.remove("is-pointer-tilting");
-        surface.style.setProperty("--tilt-x", "0deg");
-        surface.style.setProperty("--tilt-y", "0deg");
-        if (tiltFrame) {
-          cancelAnimationFrame(tiltFrame);
-          tiltFrame = 0;
-        }
-      }
-
-      surface.addEventListener("pointermove", (event) => {
+      surface.addEventListener("pointerenter", (event) => {
         if (motionQuery.matches) {
           return;
         }
 
-        const bounds = surface.getBoundingClientRect();
-        const normalizedX = ((event.clientX - bounds.left) / Math.max(1, bounds.width) - 0.5) * 2;
-        const normalizedY = ((event.clientY - bounds.top) / Math.max(1, bounds.height) - 0.5) * 2;
-        const maxTilt = surface.matches(".panel, .metric-panel, .profile-card, .action-card, .game-cover, .world-card")
-          ? 4.8
-          : 3.2;
-
-        surface.classList.add("is-pointer-tilting");
-        if (tiltFrame) {
-          cancelAnimationFrame(tiltFrame);
-        }
-        tiltFrame = requestAnimationFrame(() => {
-          surface.style.setProperty("--tilt-x", `${(normalizedX * maxTilt).toFixed(2)}deg`);
-          surface.style.setProperty("--tilt-y", `${(-normalizedY * maxTilt).toFixed(2)}deg`);
-          tiltFrame = 0;
-        });
+        activeSurface = surface;
+        activeRect = surface.getBoundingClientRect();
+        updateTilt(surface, activeRect, event);
       });
 
-      surface.addEventListener("pointerleave", resetTilt);
-      surface.addEventListener("pointercancel", resetTilt);
-      surface.addEventListener("blur", resetTilt);
+      surface.addEventListener("pointerleave", (event) => {
+        if (!activeRect || inflatedContains(activeRect, event)) {
+          return;
+        }
+        resetTilt(surface);
+      });
+      surface.addEventListener("pointercancel", () => resetTilt(surface));
+      surface.addEventListener("blur", () => resetTilt(surface));
     });
   }
 
   onReady(() => {
     renderPeekAvatar();
+    sanitizeFloatingNavigation();
     installTopbarStability();
     installBackButtonGuard();
     installPointerTilt();
+    window.setTimeout(sanitizeFloatingNavigation, 200);
   });
 })();
