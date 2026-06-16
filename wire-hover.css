@@ -1,0 +1,234 @@
+/* Wireframe hover trace language. Loaded after the main theme. */
+button[data-corner-runners] {
+  overflow: hidden;
+}
+
+button[data-corner-runners] > :not(.button-corner-runner) {
+  position: relative;
+  z-index: 2;
+}
+
+.button-corner-runner {
+  z-index: 1;
+}
+
+.runner-one {
+  inset: -1px;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(245, 250, 252, 0.02) 24%, rgba(245, 250, 252, 0.22) 50%, rgba(156, 218, 216, 0.08) 64%, transparent 100%),
+    linear-gradient(118deg, transparent 0 42%, rgba(156, 218, 216, 0.2) 42.3% 42.9%, transparent 43.2% 100%),
+    repeating-linear-gradient(90deg, rgba(236, 244, 247, 0.075) 0 1px, transparent 1px 16px),
+    repeating-linear-gradient(0deg, rgba(236, 244, 247, 0.055) 0 1px, transparent 1px 16px);
+  background-position: -60% 0, 0 0, 0 0, 0 0;
+  background-size: 54% 100%, 100% 100%, 16px 16px, 16px 16px;
+  box-shadow:
+    inset 0 0 0 1px rgba(236, 244, 247, 0.12),
+    inset 0 0 26px rgba(156, 218, 216, 0.08);
+  transform: none;
+}
+
+.runner-two {
+  inset: -1px;
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle, rgba(245, 250, 252, 0.9) 0 1.5px, rgba(156, 218, 216, 0.38) 2px 3px, transparent 4px) 8px 8px / 18px 18px no-repeat,
+    radial-gradient(circle, rgba(245, 250, 252, 0.82) 0 1.5px, rgba(156, 218, 216, 0.32) 2px 3px, transparent 4px) calc(100% - 26px) calc(100% - 26px) / 18px 18px no-repeat;
+  box-shadow: none;
+  filter:
+    drop-shadow(0 0 7px rgba(245, 250, 252, 0.26))
+    drop-shadow(0 0 12px rgba(156, 218, 216, 0.2));
+  transform: none;
+}
+
+.runner-two::before,
+.runner-two::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  border: 1px solid rgba(236, 244, 247, 0.44);
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 5px 0 0 0;
+  opacity: 0;
+  box-shadow:
+    -5px -5px 16px rgba(245, 250, 252, 0.14),
+    -2px -2px 12px rgba(156, 218, 216, 0.16);
+}
+
+.runner-two::before {
+  left: 8px;
+  top: 8px;
+}
+
+.runner-two::after {
+  right: 8px;
+  bottom: 8px;
+  transform: rotate(180deg);
+}
+
+button:hover > .runner-one,
+button:focus-visible > .runner-one {
+  animation: wire-grid-shimmer 1500ms var(--ease-cinematic) infinite;
+}
+
+button:hover > .runner-two,
+button:focus-visible > .runner-two {
+  animation: wire-node-map 1500ms var(--ease-cinematic) infinite;
+}
+
+button:hover > .runner-two::before,
+button:focus-visible > .runner-two::before {
+  animation: wire-corner-trace-a 1500ms var(--ease-cinematic) infinite;
+}
+
+button:hover > .runner-two::after,
+button:focus-visible > .runner-two::after {
+  animation: wire-corner-trace-b 1500ms var(--ease-cinematic) infinite;
+}
+
+.nav-category-panel .nav-item,
+.profile-menu button {
+  position: relative;
+}
+
+.nav-category-panel .nav-item::after,
+.profile-menu button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(156, 218, 216, 0), rgba(236, 244, 247, 0.72), rgba(156, 218, 216, 0));
+  box-shadow: 0 0 12px rgba(156, 218, 216, 0.24);
+  opacity: 0;
+}
+
+.nav-category-panel .nav-item:hover::after,
+.nav-category-panel .nav-item:focus-visible::after,
+.profile-menu button:hover::after,
+.profile-menu button:focus-visible::after {
+  animation: wire-text-trace 920ms var(--ease-cinematic) both;
+}
+
+@keyframes wire-grid-shimmer {
+  0% {
+    opacity: 0;
+    background-position: -60% 0, -8px 0, 0 0, 0 0;
+  }
+  20% {
+    opacity: 0.82;
+  }
+  64% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    background-position: 150% 0, 10px 0, 16px 0, 0 16px;
+  }
+}
+
+@keyframes wire-node-map {
+  0% {
+    opacity: 0;
+    background-position:
+      8px 8px,
+      calc(100% - 26px) calc(100% - 26px);
+  }
+  18%,
+  76% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    background-position:
+      calc(100% - 26px) 8px,
+      8px calc(100% - 26px);
+  }
+}
+
+@keyframes wire-corner-trace-a {
+  0% {
+    left: 8px;
+    top: 8px;
+    opacity: 0;
+    transform: rotate(0deg) scale(0.74);
+  }
+  18% {
+    opacity: 1;
+  }
+  48% {
+    left: calc(50% - 11px);
+    top: 8px;
+    opacity: 0.78;
+    transform: rotate(45deg) scale(1);
+  }
+  78% {
+    left: calc(100% - 30px);
+    top: calc(50% - 11px);
+    opacity: 0.7;
+    transform: rotate(90deg) scale(0.96);
+  }
+  100% {
+    left: calc(100% - 30px);
+    top: calc(100% - 30px);
+    opacity: 0;
+    transform: rotate(180deg) scale(0.72);
+  }
+}
+
+@keyframes wire-corner-trace-b {
+  0% {
+    right: 8px;
+    bottom: 8px;
+    opacity: 0;
+    transform: rotate(180deg) scale(0.74);
+  }
+  18% {
+    opacity: 1;
+  }
+  48% {
+    right: calc(50% - 11px);
+    bottom: 8px;
+    opacity: 0.78;
+    transform: rotate(225deg) scale(1);
+  }
+  78% {
+    right: calc(100% - 30px);
+    bottom: calc(50% - 11px);
+    opacity: 0.7;
+    transform: rotate(270deg) scale(0.96);
+  }
+  100% {
+    right: calc(100% - 30px);
+    bottom: calc(100% - 30px);
+    opacity: 0;
+    transform: rotate(360deg) scale(0.72);
+  }
+}
+
+@keyframes wire-text-trace {
+  0% {
+    width: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  28%,
+  74% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(6px);
+  }
+}
