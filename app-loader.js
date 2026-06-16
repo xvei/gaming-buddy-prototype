@@ -2,6 +2,7 @@
   "use strict";
 
   const baseCommit = "865d1b0c046b0d599554787cab9d3e72c141c35e";
+  const assetVersion = "20260617-sidebar-tilt-v2";
   const baseApp = `https://cdn.jsdelivr.net/gh/xvei/gaming-buddy-prototype@${baseCommit}/app.js`;
 
   function installRafThrottle() {
@@ -73,9 +74,9 @@
   }
 
   installRafThrottle();
-  loadStyle("/wire-hover.css");
+  loadStyle(`/wire-hover.css?v=${assetVersion}`);
   loadScript(baseApp)
-    .then(() => loadScript("/interaction-fixes.js"))
+    .then(() => loadScript(`/interaction-fixes.js?v=${assetVersion}`))
     .catch((error) => {
       console.error("Gaming Buddy app loader failed", error);
     });
